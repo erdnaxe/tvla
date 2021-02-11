@@ -26,8 +26,8 @@
     Test Vector Leakage Assessment
   </h1>
 
-  <p class="lead mt-2">Values given below are recomandations that should maximize leakage.
-    If you have better recommandations or feedbacks about this tool, we would love hearing them.</p>
+  <p class="lead mt-2">Values given below are recommendations that should maximize leakage.
+    If you have better recommendations or feedbacks about this tool, we would love hearing them.</p>
 
   <div class="card shadow my-3">
     <div class="card-body">
@@ -184,13 +184,13 @@
     <div class="card-body">
       <h5 class="card-title">Acquisition parameters</h5>
       <p class="card-text">
-        These information should be carefully chosen and reported:
+        These should be carefully chosen and reported:
       </p>
       <ul>
         <li><b>Number of traces</b> for each set.</li>
         <li><b>Gain</b> should be set to measure the full dynamic range.</li>
         <li><b>Sampling rate</b> can be set to 5 times the bandwidth and then refined.</li>
-        <li><b>Input bandwith</b> should be at least twice the target clock frequency.</li>
+        <li><b>Input bandwidth</b> should be at least twice the target clock frequency.</li>
         <li><b>Alignment method</b> can be least squared distance to a reference trace.</li>
         <li><i>Remember to also report probes, filters and amplifiers used (if any).</i></li>
       </ul>
@@ -208,8 +208,18 @@
           2019,
           <a href="https://eprint.iacr.org/2019/1013">https://eprint.iacr.org/2019/1013</a>
         </li>
-        <li>https://csrc.nist.gov/csrc/media/events/non-invasive-attack-testing-workshop/documents/08_goodwill.pdf</li>
-        <li>https://www.rambus.com/wp-content/uploads/2015/08/TVLA-DTR-with-AES.pdf</li>
+        <li>
+          Gilbert Goodwill, Benjamin Jun, Josh Jaffe and Pankaj Rohatgi,
+          <i>A testing methodology for side­channel resistance validation</i>,
+          2011,
+          <a href="https://csrc.nist.gov/csrc/media/events/non-invasive-attack-testing-workshop/documents/08_goodwill.pdf">https://csrc.nist.gov/csrc/media/events/non-invasive-attack-testing-workshop/documents/08_goodwill.pdf</a>
+        </li>
+        <li>
+          Rambus,
+          <i>Test Vector Leakage Assessment (TVLA) Derived Test Requirements (DTR) with AES</i>
+          2015,
+          <a href="https://www.rambus.com/wp-content/uploads/2015/08/TVLA-DTR-with-AES.pdf">https://www.rambus.com/wp-content/uploads/2015/08/TVLA-DTR-with-AES.pdf</a>
+        </li>
       </ul>
     </div>
   </div>
