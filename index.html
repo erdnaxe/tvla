@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+    integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+    integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+    crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+
+  <title>Test Vector Leakage Assessment</title>
+</head>
+
+<body class="container d-flex w-100 h-100 flex-column bg-light" x-data="{ algorithm: 'AES', keyLength: '128' }">
+  <h1 class="mb-auto mt-3 text-center">
+    Test Vector Leakage Assessment
+  </h1>
+
+  <p class="lead mt-2">Values given below are recomandations that should maximize leakage.
+    If you have better recommandations or feedbacks about this tool, we would love hearing them.</p>
+
+  <div class="card shadow my-3">
+    <div class="card-body">
+      <h5>Algorithm</h5>
+      <div class="btn-group d-flex" role="group" aria-label="Algorithm">
+        <input type="radio" class="btn-check" x-model="algorithm" value="AES" autocomplete="off" id="radio_algo_aes">
+        <label class="btn btn-outline-primary" for="radio_algo_aes">AES</label>
+      </div>
+
+      <h5 class="mt-4">Key length</h5>
+      <div class="btn-group d-flex" role="group" aria-label="Key length">
+        <input type="radio" class="btn-check" x-model="keyLength" value="128" autocomplete="off"
+          id="radio_keylength_128">
+        <label class="btn btn-outline-primary" for="radio_keylength_128">128</label>
+        <input type="radio" class="btn-check" x-model="keyLength" value="192" autocomplete="off"
+          id="radio_keylength_192">
+        <label class="btn btn-outline-primary" for="radio_keylength_192">192</label>
+        <input type="radio" class="btn-check" x-model="keyLength" value="256" autocomplete="off"
+          id="radio_keylength_256">
+        <label class="btn btn-outline-primary" for="radio_keylength_256">256</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow my-3">
+    <div class="card-header pb-0 border-bottom-0">
+      <ul class="nav nav-tabs nav-fill" id="typeTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" data-bs-toggle="tab" href="#type1" role="tab" aria-controls="type1"
+            aria-selected="true">General Test: Fixed-vs.-Random Data Datasets</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" data-bs-toggle="tab" href="#type2" role="tab" aria-controls="type2"
+            aria-selected="false">General Test: Fixed-vs.-Random Key Datasets</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane active" id="type1" role="tabpanel" aria-labelledby="type1-tab">
+          <h5>Fixed set of traces: fixed input data and fixed key</h5>
+
+          <p class="card-text">
+            <b>The key</b> on the device should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF01_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF01\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ F012_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The input data</b> should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('DA39\\allowbreak\\ A3EE\\allowbreak\\ 5E6B\\allowbreak\\ 4B0D\\allowbreak\\ 3255\\allowbreak\\ BFEF\\allowbreak\\ 9560\\allowbreak\\ 1890_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('DA39\\allowbreak\\ A3EE\\allowbreak\\ 5E6B\\allowbreak\\ 4B0D\\allowbreak\\ 3255\\allowbreak\\ BFEF\\allowbreak\\ 9560\\allowbreak\\ 1888_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('DA39\\allowbreak\\ A3EE\\allowbreak\\ 5E6B\\allowbreak\\ 4B0D\\allowbreak\\ 3255\\allowbreak\\ BFEF\\allowbreak\\ 9560\\allowbreak\\ 1895_{16}')"></span>
+          </p>
+
+          <h5>Random set of traces: random input data and fixed key</h5>
+
+          <p class="card-text">
+            <b>The key</b> on the device should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF01_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('0123\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDEF\\allowbreak\\ 1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF0\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF01\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ F012_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The generation key</b> for plaintext should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ E0F0_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ 0F01_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ F013\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDE0\\allowbreak\\ F012_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The input data</b> should be
+            <span
+              x-html="katex.renderToString('\\begin{cases}I_0 = 0000\\ 0000\\ 0000\\ 0000\\ 0000\\ 0000\\ 0000\\ 0000_{16}\\\\I_{j+1} = AES(K_{gen}, I_j)\\end{cases}')"></span>
+          </p>
+        </div>
+
+        <div class="tab-pane" id="type2" role="tabpanel" aria-labelledby="type2-tab">
+          <h5>Fixed set: random input data and fixed key</h5>
+
+          <p class="card-text">
+            <b>The key</b> on the device should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('811E\\allowbreak\\ 3731\\allowbreak\\ B012\\allowbreak\\ 0A78\\allowbreak\\ 4278\\allowbreak\\ 1E22\\allowbreak\\ B25C\\allowbreak\\ DDF9_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('811E\\allowbreak\\ 3731\\allowbreak\\ B012\\allowbreak\\ 0A78\\allowbreak\\ 4278\\allowbreak\\ 1E22\\allowbreak\\ B25C\\allowbreak\\ DDF9\\allowbreak\\ 94F4\\allowbreak\\ D92C\\allowbreak\\ D2FA\\allowbreak\\ E645_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('811E\\allowbreak\\ 3731\\allowbreak\\ B012\\allowbreak\\ 0A78\\allowbreak\\ 4278\\allowbreak\\ 1E22\\allowbreak\\ B25C\\allowbreak\\ DDF9\\allowbreak\\ 94F4\\allowbreak\\ D92C\\allowbreak\\ D2FA\\allowbreak\\ E645\\allowbreak\\ 37B9\\allowbreak\\ 40EA\\allowbreak\\ 5E1A\\allowbreak\\ F112_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The generation key</b> for plaintext should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ E0F0_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ 0F01_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ F013\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDE0\\allowbreak\\ F012_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The input data</b> should be
+            <span
+              x-html="katex.renderToString('\\begin{cases}I_0 = AAAA\\ AAAA\\ AAAA\\ AAAA\\ AAAA\\ AAAA\\ AAAA\\ AAAA_{16}\\\\I_{j+1} = AES(K_{gen}, I_j)\\end{cases}')"></span>
+          </p>
+
+          <h5>Random set: random input data and random keys</h5>
+
+          <p class="card-text">
+            <b>The generation key</b> for key and plaintext should be
+            <span x-show="keyLength == 128"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ E0F0_{16}')"></span>
+            <span x-show="keyLength == 192"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ 0F01_{16}')"></span>
+            <span x-show="keyLength == 256"
+              x-html="katex.renderToString('K_{gen}=1234\\allowbreak\\ 5678\\allowbreak\\ 9ABC\\allowbreak\\ DEF1\\allowbreak\\ 2345\\allowbreak\\ 6789\\allowbreak\\ ABCD\\allowbreak\\ EF02\\allowbreak\\ 3456\\allowbreak\\ 789A\\allowbreak\\ BCDE\\allowbreak\\ F013\\allowbreak\\ 4567\\allowbreak\\ 89AB\\allowbreak\\ CDE0\\allowbreak\\ F012_{16}')"></span>
+          </p>
+
+          <p class="card-text">
+            <span x-show="keyLength == 128"><b>The key</b> should be</span>
+            <span x-show="keyLength == 192"><b>The key</b> should be the concatenation of pairs of <span
+                x-html="katex.renderToString('S_j')"></span> values, truncated to 192 bits,</span>
+            <span x-show="keyLength == 256"><b>The key</b> should be the concatenation of pairs of <span
+                x-html="katex.renderToString('S_j')"></span> values,</span>
+            <span
+              x-html="katex.renderToString('\\begin{cases}S_0 = 5353\\ 5353\\ 5353\\ 5353\\ 5353\\ 5353\\ 5353\\ 5353_{16}\\\\S_{j+1} = AES(K_{gen}, S_j)\\end{cases}')"></span>
+          </p>
+
+          <p class="card-text">
+            <b>The input data</b> should be
+            <span
+              x-html="katex.renderToString('\\begin{cases}I_0 = CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC\\allowbreak\\ CCCC_{16}\\\\I_{j+1} = AES(K_{gen}, I_j)\\end{cases}')"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow my-3">
+    <div class="card-body">
+      <h5 class="card-title">Acquisition parameters</h5>
+      <p class="card-text">
+        These information should be carefully chosen and reported:
+      </p>
+      <ul>
+        <li><b>Number of traces</b> for each set.</li>
+        <li><b>Gain</b> should be set to measure the full dynamic range.</li>
+        <li><b>Sampling rate</b> can be set to 5 times the bandwidth and then refined.</li>
+        <li><b>Input bandwith</b> should be at least twice the target clock frequency.</li>
+        <li><b>Alignment method</b> can be least squared distance to a reference trace.</li>
+        <li><i>Remember to also report probes, filters and amplifiers used (if any).</i></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card shadow my-3">
+    <div class="card-body">
+      <h5 class="card-title">References</h5>
+      <ul>
+        <li>
+          Carolyn Whitnall and Elisabeth Oswald,
+          <i>"A Critical Analysis of ISO 17825 (`Testing methods for the mitigation of non-invasive attack classes
+            against cryptographic modules')"</i>,
+          2019,
+          <a href="https://eprint.iacr.org/2019/1013">https://eprint.iacr.org/2019/1013</a>
+        </li>
+        <li>https://csrc.nist.gov/csrc/media/events/non-invasive-attack-testing-workshop/documents/08_goodwill.pdf</li>
+        <li>https://www.rambus.com/wp-content/uploads/2015/08/TVLA-DTR-with-AES.pdf</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="mt-auto">
+    <p class="mb-3 text-center text-muted">
+      Coded by <a class="link-secondary" href="https://alexandre.iooss.fr/">Alexandre Iooss</a>.
+      The source code is licensed <a class="link-secondary" href="https://www.apache.org/licenses/LICENSE-2.0">Apache
+        2.0</a>.
+      <a class="link-secondary" href="https://github.com/erdnaxe/tvla">Fork me</a>.
+    </p>
+  </footer>
+
+</body>
+
+</html>
